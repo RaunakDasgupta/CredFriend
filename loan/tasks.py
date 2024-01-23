@@ -22,7 +22,7 @@ def add_customer(excel_file_base64):
             approved_limit=row['Approved Limit'],
         )
 
-
+@app.task
 def add_loan(excel_file_base64):
     excel_file = base64.b64decode(excel_file_base64)
     df = pd.read_excel(excel_file)
