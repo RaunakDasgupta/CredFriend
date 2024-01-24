@@ -4,11 +4,12 @@ from .views import ingest_data
 
 from rest_framework import routers
 
-from .viewsets import CustomerViewSet, LoanViewSet, CheckEligibilityView, CreateLoanView
+from .viewsets import CustomerViewSet, CheckEligibilityView, CreateLoanView, LoanViewSet
 
 router = routers.DefaultRouter()
 router.register('customer', CustomerViewSet)
-router.register(r'loan', LoanViewSet)
+router.register('loan', LoanViewSet)
+
 
 
 urlpatterns = [
