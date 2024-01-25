@@ -12,6 +12,7 @@ from rest_framework import serializers
 
 from .serializers import LoanSerializer, CreateLoanSerializer, CustomerSerializer, CreateCustomerSerializer, CheckEligibilitySerializer
 
+#Viewset for Customer Creation and Viewing
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CreateCustomerSerializer
@@ -28,7 +29,8 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         return Response({"message": "Not allowed"}, status=405)
-    
+
+#Viewset for Loan Viewing by Loan ID and Customer ID    
 class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
@@ -47,7 +49,7 @@ class LoanViewSet(viewsets.ModelViewSet):
 
 
 
-
+#View for Loan Creation Based on Approval
 class CreateLoanView(views.APIView):
     serializer_class = CreateLoanSerializer
 
@@ -96,6 +98,7 @@ class CreateLoanView(views.APIView):
                 return Response(serializer.errors, status=400)
 
 
+#View for Checking Eligibility of a Customer Based on Credit Score
 class CheckEligibilityView(views.APIView):
     serializer_class = CheckEligibilitySerializer
 

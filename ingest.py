@@ -16,7 +16,7 @@ django.setup()
 from loan.models import Customer, Loan
 
 
-
+# Function to add customer data to the database
 def add_customer(excel_file_base64):
     excel_file = base64.b64decode(excel_file_base64)
     df = pd.read_excel(excel_file)
@@ -32,6 +32,7 @@ def add_customer(excel_file_base64):
         customer.age=row['Age']
         customer.save()
 
+# Function to add loan data to the database
 def add_loan(excel_file_base64):
     excel_file = base64.b64decode(excel_file_base64)
     df = pd.read_excel(excel_file)
@@ -52,6 +53,7 @@ def add_loan(excel_file_base64):
         except:
             pass
         
+
 
 def customer_function():
     with open("customer_data.xlsx", 'rb') as file: 
