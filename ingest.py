@@ -2,13 +2,9 @@ import base64
 
 import pandas as pd
 
-from .models import Customer, Loan
-from celery import Celery
-
-app = Celery('tasks')
+from .loan.models import Customer, Loan
 
 
-@app.task
 def add_customer(excel_file_base64):
     excel_file = base64.b64decode(excel_file_base64)
     df = pd.read_excel(excel_file)
@@ -24,7 +20,6 @@ def add_customer(excel_file_base64):
         customer.age=row['Age']
         customer.save()
 
-@app.task
 def add_loan(excel_file_base64):
     excel_file = base64.b64decode(excel_file_base64)
     df = pd.read_excel(excel_file)
@@ -46,3 +41,23 @@ def add_loan(excel_file_base64):
             pass
         
 
+def customer_function():
+    with open("customer_data.xlsx", 'rb') as file: 
+        excel_raw_bytes = file.read()
+        excel_base64 = base64.b64encode(excel_raw_bytes).decode()
+    add_customer(excel_base64)
+
+    return "Successfully ingested"
+
+def loan_function():
+    with open("loan_data.xlsx", 'rb') as file: 
+        excel_raw_bytes = file.read()
+        excel_base64 = base64.b64encode(excel_raw_bytes).decode()
+    add_loan(excel_base64)
+
+    return "Successfully ingested"
+
+
+if __name__ == "__main__":
+    customer_function()
+    loan_function()

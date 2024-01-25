@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  credfriend-database:
+    image: postgres:latest
+    container_name: fieldscope-database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: fieldscope-database
+    ports:
+      - "5431:5432"
+    volumes:
+      - ~/data/local_pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  credfriend-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_HOST=fieldscope-database  # Inject the HOST variable
+      - DATABASE_NAME=fieldscope-database  # Inject the NAME variable
+      - DATABASE_USER=postgres  # Inject the USER variable
+      - DATABASE_PASSWORD=12345  # Inject the PASSWORD variable
+      - DATABASE_PORT=5432  # Inject the PORT variable
+      - DJANGO_SECRET_KEY='django-insecure-fi-#&m&z5q1w_o1j$!0cra&a$=mfi^ns_r_7@f+ywf-2*p#ory'
+      - ADMIN_URL=supersecret/
+      - DEBUG=1
+      - ALLOWED_HOSTS=localhost, 127.0.0.1
+    networks:
+      - mynetwork
+    depends_on:
+      - fieldscope-database  # Ensure that fieldscope-app depends on fieldscope-database
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - 8888:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
+    volumes:
+      - ~/data/pgadmin_data:/var/lib/pgadmin-data
+    depends_on:
+      - fieldscope-database
+
+
+      
+networks:
+  mynetwork:
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
