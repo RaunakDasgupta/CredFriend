@@ -83,7 +83,7 @@ docker-compose up
   | :-------- | :------------------------- |
   | `loan_id:`  | Required |
 
-- **View Loans by Customer ID** `http://127.0.0.1:8000/api/loan/view-loan/<int:customer_id>/`
+- **View Loans by Customer ID** `http://127.0.0.1:8000/api/loan/view-loans/<int:customer_id>/`
   View Loans of a Customer by customer_id
 - | field |              |
   | :-------- | :------------------------- |
