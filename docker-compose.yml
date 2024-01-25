@@ -1,18 +1,18 @@
 version: '3.8'
 
+
+
 services:
   credfriend-database:
     image: postgres:latest
-    container_name: fieldscope-database
+    container_name: credfriend-database
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: fieldscope-database
+      POSTGRES_DB: credfriend-database
     ports:
       - "5431:5432"
-    volumes:
-      - ~/data/local_pgdata:/var/lib/postgresql/data
     networks:
       - mynetwork
 
@@ -24,8 +24,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_HOST=fieldscope-database  # Inject the HOST variable
-      - DATABASE_NAME=fieldscope-database  # Inject the NAME variable
+      - DATABASE_HOST=credfriend-database  # Inject the HOST variable
+      - DATABASE_NAME=credfriend-database  # Inject the NAME variable
       - DATABASE_USER=postgres  # Inject the USER variable
       - DATABASE_PASSWORD=12345  # Inject the PASSWORD variable
       - DATABASE_PORT=5432  # Inject the PORT variable
@@ -36,7 +36,7 @@ services:
     networks:
       - mynetwork
     depends_on:
-      - fieldscope-database  # Ensure that fieldscope-app depends on fieldscope-database
+      - credfriend-database  # Ensure that fieldscope-app depends on fieldscope-database
 
   pgadmin:
     image: dpage/pgadmin4
@@ -50,7 +50,7 @@ services:
     volumes:
       - ~/data/pgadmin_data:/var/lib/pgadmin-data
     depends_on:
-      - fieldscope-database
+      - credfriend-database
 
 
       

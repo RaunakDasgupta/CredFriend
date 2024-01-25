@@ -1,8 +1,15 @@
 import base64
-
+import os
+import django
 import pandas as pd
+# Set the DJANGO_SETTINGS_MODULE
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
-from .loan.models import Customer, Loan
+# Setup Django
+django.setup()
+
+from loan.models import Customer, Loan
+
 
 
 def add_customer(excel_file_base64):
