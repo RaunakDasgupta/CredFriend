@@ -1,7 +1,12 @@
 import base64
 import os
+import sys
 import django
 import pandas as pd
+
+# Update the Python path
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(BASE_DIR)
 # Set the DJANGO_SETTINGS_MODULE
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
